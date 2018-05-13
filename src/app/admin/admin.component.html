@@ -1,0 +1,18 @@
+<table>
+  <thead><tr><th>Question</th><th>Answer</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr *ngFor="let question of questions">
+      <!-- <td>{{question.id}}</td> -->
+      <td>{{question.question}}</td>
+      <td>{{question.answer}}</td>
+      <td><span class="clickable" (click)="deleteQuestion(question)">Delete</span></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td><input [(ngModel)]="toAddQuestion" /></td>
+      <td><input [(ngModel)]="toAddAnswer" /></td>
+      <td><span class="clickable" (click)="addQuestion()">Save</span></td>
+    </tr>
+  </tfoot>
+</table>

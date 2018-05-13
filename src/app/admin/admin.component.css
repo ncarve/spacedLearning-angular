@@ -1,0 +1,14 @@
+span.clickable {
+  cursor: pointer;
+}
+span.ascii {
+  font-family: "Courier";
+  padding-left: 2px;
+  padding-right: 2px;
+}
+table, td, th {
+  table-layout: fixed;
+  width: 50%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
