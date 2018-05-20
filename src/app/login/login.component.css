@@ -1,6 +1,3 @@
-input.visible {
-  visibility: visible;
-}
-input.hidden {
-  visibility: hidden;
+span.clickable {
+  cursor: pointer;
 }

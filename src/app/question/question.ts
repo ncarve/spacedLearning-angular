@@ -5,6 +5,8 @@ export class Question {
   answer: string;
   nb_correct: number;
   nb_wrong: number;
+  editingQ: boolean = false;
+  editingA: boolean = false;
 
   get weight(): number {
     if (this.nb_correct + this.nb_wrong == 0)

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventEmitter } from "@angular/core";
 import { Question } from '../question/question';
 import { QuestionService } from '../question/question.service';
 import { HttpResponse } from '@angular/common/http';
@@ -13,6 +14,11 @@ export class AdminComponent implements OnInit {
   questions: Question[];
   toAddQuestion: string;
   toAddAnswer: string;
+  editingQuestion: Question;
+  editingQuestionQ: string;
+  editingQuestionA: string;
+  questionFocus = new EventEmitter<boolean>();
+  answerFocus = new EventEmitter<boolean>();
 
   constructor(private questionService: QuestionService) { }
   
@@ -29,6 +35,37 @@ export class AdminComponent implements OnInit {
       this.toAddAnswer = '';
       this.toAddQuestion = '';
       });
+  }
+
+  startEdit(question: Question, type: string) {
+    this.editingQuestionQ = question.question;
+    this.editingQuestionA = question.answer;
+    if (type == 'q') {
+      question.editingQ = true;
+    }
+    else if (type == 'a') {
+      question.editingA = true;
+    }
+    this.editingQuestion = question;
+  }
+
+  stopEdit(question: Question, type: string) {
+    if (type == 'q')
+      question.editingQ = false;
+    else if (type == 'a')
+      question.editingA = false;
+    if (question.question == this.editingQuestionQ && question.answer == this.editingQuestionA)
+      return;
+    question.question = this.editingQuestionQ;
+    question.answer = this.editingQuestionA;
+    this.questionService.updateQuestion(question)
+      .subscribe(() => {
+        console.log(`Question ${question.id} updated`);
+          this.editingQuestion = question;
+        });
+  }
+
+  editQuestion(question: Question) {
   }
 
   deleteQuestion(q: Question) {

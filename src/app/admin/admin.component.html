@@ -3,15 +3,27 @@
   <tbody>
     <tr *ngFor="let question of questions">
       <!-- <td>{{question.id}}</td> -->
-      <td>{{question.question}}</td>
-      <td>{{question.answer}}</td>
-      <td><span class="clickable" (click)="deleteQuestion(question)">Delete</span></td>
+      <td>
+        <span *ngIf="!question.editingQ" class="editable" (click)="startEdit(question, 'q')">{{question.question}}</span>
+        <span *ngIf="question.editingQ">
+          {{editQInput.focus()}}
+          <input #editQInput type="text" (keyup.enter)="stopEdit(question, 'q')" (blur)="stopEdit(question, 'q')" [(ngModel)]="editingQuestionQ" tabindex="0" />
+        </span>
+      </td>
+      <td>
+          <span *ngIf="!question.editingA" class="editable" (click)="startEdit(question, 'a')">{{question.answer}}</span>
+          <span *ngIf="question.editingA">
+            {{editAInput.focus()}}
+            <input #editAInput type="text" (keyup.enter)="stopEdit(question, 'a')" (blur)="stopEdit(question, 'a')" [(ngModel)]="editingQuestionA" tabindex="1" />
+          </span>
+        </td>
+        <td><span class="clickable" (click)="deleteQuestion(question)">Delete</span></td>
     </tr>
   </tbody>
   <tfoot>
     <tr>
-      <td><input [(ngModel)]="toAddQuestion" /></td>
-      <td><input [(ngModel)]="toAddAnswer" /></td>
+      <td><input [(ngModel)]="toAddQuestion" (keyup.enter)="addQuestion()" /></td>
+      <td><input [(ngModel)]="toAddAnswer" (keyup.enter)="addQuestion()" /></td>
       <td><span class="clickable" (click)="addQuestion()">Save</span></td>
     </tr>
   </tfoot>

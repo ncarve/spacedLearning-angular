@@ -54,12 +54,21 @@ export class QuestionService {
     return this.http.post<Question>(`${this.apiUrl}/questions/`, {question, answer}, httpOptions);
   }
 
+  updateQuestion({id, question, answer}: Question): Observable<Question> {
+    return this.http.put<Question>(`${this.apiUrl}/questions/${id}`, {question, answer});
+  }
+
   deleteQuestion({id}: Question): Observable<HttpResponse<string>> {
     return this.http.delete(`${this.apiUrl}/questions/${id}`, {observe: 'response', responseType: 'text'});
   }
 
   submitAnswer(question: Question, correct: boolean): Observable<HttpResponse<string>> {
     return this.http.post(`${this.apiUrl}/questions/${question.id}/submit`, {correct}, {observe: 'response', responseType: 'text'});
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.onSetCredentials(false);
   }
 
   saveCredentials(username: string, password: string): void {
