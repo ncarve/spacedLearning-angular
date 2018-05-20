@@ -12,12 +12,36 @@ export class BasicAuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    request = request.clone({
-      setHeaders: {
-        Authorization: `Basic ${this.questionService.getBasicAuthHeader()}`
-      }
-    });
+    if(this.questionService.token) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${this.questionService.token}`
+        }
+      });
+    }
+    else if(this.questionService.basicAuthHeader) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Basic ${this.questionService.basicAuthHeader}`
+        }
+      });
+    }
     
-    return next.handle(request);
+    return next.handle(request).pipe(
+      tap(
+        (event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            // do stuff with response if you want
+          }
+        },
+        error => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.status === 401) {
+              console.log("401 intercepted");
+              this.questionService.resetCredentials();
+            }
+          }
+        }
+      ));
   }
 }

@@ -1,5 +1,5 @@
 <form>
 <div>{{currentQuestion.question}}</div>
-<input [(ngModel)]="currentAnswer" name="answer" />
+<input [(ngModel)]="currentAnswer" name="answer" data-lpignore="true" />
 <button type="submit" (click)="submitAnswer()">Submit</button>
 </form>

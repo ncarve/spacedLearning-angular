@@ -9,7 +9,7 @@ import { QuestionService } from '../question/question.service';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
-  inputClass: string = 'visible';
+  inputClass: string = 'hidden';
 
   constructor(private questionService: QuestionService) {
     this.questionService.setCredentialsCallback(this.setCredentials);
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   setCredentials = (username: string, password: string, success = false) => {
     this.username = username;
-    this.password = password;
+    //this.password = password;
     this.inputClass = success ? 'hidden' : 'visible';
   };
 

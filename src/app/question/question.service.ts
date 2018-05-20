@@ -15,17 +15,33 @@ export class QuestionService {
 
   private username: string;
   private password: string;
-  private basicAuthHeader: string;
+  token: string;
   private onSetCredentials: ((success: boolean) => void);
 
-  constructor(private http: HttpClient) { }
+  loggedIn: boolean = false;
+  get basicAuthHeader(): string {
+    if (this.username && this.password)
+      return Buffer.from(`${this.username}:${this.password}`, 'utf8').toString('base64');
+    return null;
+  }
 
-  login() {
-    return this.http.get<Question[]>(`${this.apiUrl}/users/login`);
+  constructor(private http: HttpClient) {
+    if(localStorage.getItem('token'))
+      this.token = localStorage.getItem('token');
+    if(localStorage.getItem('username'))
+      this.username = localStorage.getItem('username');
+  }
+
+  login(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/login`, {});
   }
 
   getQuestions(): Observable<Question[]> {
     return this.http.get<Question[]>(`${this.apiUrl}/questions/`);
+  }
+
+  getUserQuestions(): Observable<Question[]> {
+    return this.http.get<Question[]>(`${this.apiUrl}/user/questions/`);
   }
 
   addQuestion(question: string, answer: string): Observable<Question> {
@@ -42,13 +58,22 @@ export class QuestionService {
     return this.http.delete(`${this.apiUrl}/questions/${id}`, {observe: 'response', responseType: 'text'});
   }
 
-  saveCredentials(username, password) {
+  submitAnswer(question: Question, correct: boolean): Observable<HttpResponse<string>> {
+    return this.http.post(`${this.apiUrl}/questions/${question.id}/submit`, {correct}, {observe: 'response', responseType: 'text'});
+  }
+
+  saveCredentials(username: string, password: string): void {
+    if(!username || !password)
+      return;
     this.username = username;
     this.password = password;
-    this.basicAuthHeader = Buffer.from(`${this.username}:${this.password}`, 'utf8').toString('base64');
+    localStorage.setItem('username', username);
+    //localStorage.setItem('password', password);
     console.log("Credentials saved!");
     this.login().subscribe(res => {
       console.log(`Successful login!`);
+      this.token = res.token;
+      localStorage.setItem('token', this.token);
       this.onSetCredentials(true);
     }, (err: HttpErrorResponse) => {
       console.log(`Failed login`);
@@ -56,17 +81,17 @@ export class QuestionService {
   }
 
   setCredentialsCallback(callback: ((username: string, password: string, success: boolean) => void)) {
-    this.onSetCredentials = (success: boolean) => callback(this.username, this.password, success);
+    this.onSetCredentials = (success: boolean) => {
+      this.loggedIn = success;
+      return callback(this.username, this.password, success);
+    }
+    this.onSetCredentials(this.token !== undefined);
   }
 
   resetCredentials() {
     console.log("Credentials reset");
     this.password = '';
-    this.basicAuthHeader = '';
+    this.token = '';
     this.onSetCredentials(false);
-  }
-
-  getBasicAuthHeader() {
-    return this.basicAuthHeader;
   }
 }
