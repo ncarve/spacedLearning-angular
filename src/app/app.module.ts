@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { LearnComponent } from './learn/learn.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminComponent } from './admin/admin.component';
+import { LoginComponent } from './login/login.component';
+import { HttpInterceptorProviders } from './http-interceptors';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminComponent },
@@ -24,7 +26,8 @@ const appRoutes: Routes = [
     AppComponent,
     LearnComponent,
     PageNotFoundComponent,
-    AdminComponent
+    AdminComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ const appRoutes: Routes = [
       { enableTracing: true }
     )
   ],
-  providers: [],
+  providers: [HttpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

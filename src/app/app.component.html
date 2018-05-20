@@ -3,8 +3,13 @@
     {{ title }}!
   </h1>
 </div>
-<nav>
+<table><tr>
+  <td><nav>
   <a routerLink="/learn" routerLinkActive="active" class="button">Learn</a>
   <a routerLink="/admin" routerLinkActive="active" class="button">Admin</a>
-</nav>
+</nav></td>
+<td style="text-align: right; width: 100%">
+  <app-login></app-login>
+</td>
+</tr></table>
 <router-outlet></router-outlet>

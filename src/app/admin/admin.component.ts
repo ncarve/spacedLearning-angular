@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Question } from '../question/question';
 import { QuestionService } from '../question/question.service';
+import { HttpResponse } from '@angular/common/http';
 import * as R from 'ramda';
 
 @Component({
@@ -31,8 +32,15 @@ export class AdminComponent implements OnInit {
   }
 
   deleteQuestion(q: Question) {
-    console.log(q);
-    this.questionService.deleteQuestion(q);
-    this.questions = R.reject(R.pipe(R.prop('id'), R.equals(q.id)), this.questions);
+    this.questionService.deleteQuestion(q)
+      .subscribe((res: HttpResponse<string>) => {
+        console.log(`Delete question '${q.question}' => ${res.status}`);
+        if (res.status == 204)
+          this.questions = R.reject(R.pipe(R.prop('id'), R.equals(q.id)), this.questions);
+      },
+      (err: HttpResponse<string>) => {
+        console.log(`Delete question '${q.question}' => ${err.status}`);
+      }
+    );
   }
 }

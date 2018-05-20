@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionsService } from './questions/questions.service';
-import { Question } from './questions/question';
+import { QuestionService } from './question/question.service';
+import { Question } from './question/question';
 
 @Component({
   selector: 'app-root',

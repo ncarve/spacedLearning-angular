@@ -6,9 +6,18 @@ span.ascii {
   padding-left: 2px;
   padding-right: 2px;
 }
-table, td, th {
-  table-layout: fixed;
+table {
   width: 50%;
+  min-width: 500px;
+}
+table, td, th {
   border-collapse: collapse;
   border: 1px solid black;
+}
+input {
+  width: 100%;
+  box-sizing: border-box;
+}
+th.bigColumn {
+  width: 50%;
 }
