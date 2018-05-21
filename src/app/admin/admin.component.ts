@@ -56,11 +56,12 @@ export class AdminComponent implements OnInit {
       question.editingA = false;
     if (question.question == this.editingQuestionQ && question.answer == this.editingQuestionA)
       return;
-    question.question = this.editingQuestionQ;
-    question.answer = this.editingQuestionA;
-    this.questionService.updateQuestion(question)
+    const copy: Question = question.clone({question: this.editingQuestionQ, answer: this.editingQuestionA});
+    this.questionService.updateQuestion(copy)
       .subscribe(() => {
         console.log(`Question ${question.id} updated`);
+          question.question = this.editingQuestionQ;
+          question.answer = this.editingQuestionA;
           this.editingQuestion = question;
         });
   }

@@ -22,6 +22,15 @@ export class Question {
     this.nb_correct = nb_correct || 0;
     this.nb_wrong = nb_wrong || 0;
   }
+
+  clone({id, status, question, answer, nb_correct, nb_wrong}: any): Question {
+    return new Question(id || this.id,
+      status || this.status,
+      question || this.question,
+      answer || this.answer,
+      nb_correct || this.nb_correct,
+      nb_wrong || this.nb_wrong);
+  }
 };
 
 export const EmptyQuestion: Question = new Question('', '', '', '');

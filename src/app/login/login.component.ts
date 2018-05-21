@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   saveCredentials() {
     this.questionService.saveCredentials(this.username, this.password);
+    this.password = '';
   }
 
   setCredentials = (username: string, password: string, success = false) => {

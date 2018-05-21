@@ -68,6 +68,8 @@ export class QuestionService {
 
   logout() {
     localStorage.removeItem('token');
+    this.password = '';
+    this.token = '';
     this.onSetCredentials(false);
   }
 
@@ -95,12 +97,5 @@ export class QuestionService {
       return callback(this.username, this.password, success);
     }
     this.onSetCredentials(this.token !== undefined);
-  }
-
-  resetCredentials() {
-    console.log("Credentials reset");
-    this.password = '';
-    this.token = '';
-    this.onSetCredentials(false);
   }
 }

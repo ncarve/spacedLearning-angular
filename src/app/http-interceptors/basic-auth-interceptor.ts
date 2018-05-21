@@ -38,7 +38,7 @@ export class BasicAuthInterceptor implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             if (error.status === 401) {
               console.log("401 intercepted");
-              this.questionService.resetCredentials();
+              this.questionService.logout();
             }
           }
         }
