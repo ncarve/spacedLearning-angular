@@ -31,7 +31,7 @@ export class AdminComponent implements OnInit {
   addQuestion() {
     console.log(this.toAddQuestion, this.toAddAnswer);
     this.questionService.addQuestion(this.toAddQuestion, this.toAddAnswer).subscribe(question => {
-      this.questions.push(question);
+      this.questions.push(new Question(question.id, question.status, question.question, question.answer));
       this.toAddAnswer = '';
       this.toAddQuestion = '';
       });

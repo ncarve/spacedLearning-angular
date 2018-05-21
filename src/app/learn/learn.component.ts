@@ -29,8 +29,8 @@ export class LearnComponent implements OnInit {
           const q: Question = this.allQuestions.get(question.id)
           q.nb_correct = question.nb_correct;
           q.nb_wrong = question.nb_wrong;
-          return this.pickRandomQuestion();
         });
+        return this.pickRandomQuestion();
       });
     });
   }

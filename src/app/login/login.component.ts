@@ -20,6 +20,15 @@ export class LoginComponent implements OnInit {
     this.password = '';
   }
 
+  createAccount() {
+    if (!this.username || !this.password)
+      return;
+    this.questionService.createAccount(this.username, this.password)
+      .subscribe(() => {
+        this.saveCredentials();
+      });
+  }
+
   setCredentials = (username: string, password: string, success = false) => {
     this.username = username;
     //this.password = password;

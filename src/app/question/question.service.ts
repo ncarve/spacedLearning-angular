@@ -32,6 +32,10 @@ export class QuestionService {
       this.username = localStorage.getItem('username');
   }
 
+  createAccount(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users`, {username, password});
+  }
+
   login(): Observable<any> {
     return this.http.post(`${this.apiUrl}/users/login`, {});
   }
